@@ -2,78 +2,71 @@
 
 require_once ("_db.php");
 
-
 if(isset($_POST['accion'])){ 
     switch($_POST['accion']){
-        case 'eliminar_producto':
-            eliminar_producto();
-
+        case 'eliminar_material':
+            eliminar_material();
         break;        
-        case 'editar_producto':
-        editar_producto();
 
+        case 'editar_material':
+            editar_material();
         break;
 
-        case 'insertar_productos':
-        insertar_productos();
-
+        case 'insertar_materiales':
+            insertar_materiales();
         break;    
     }
-
 }
 
-function insertar_productos(){
+function insertar_materiales(){
 
     global $conexion;
     extract($_POST);
 
+    // Variables donde se almacenan los valores de nuestra imagen
+    $tamanoArchivo = $_FILES['foto']['size'];
 
-        //variables donde se almacenan los valores de nuestra imagen
-                $tamanoArchvio=$_FILES['foto']['size'];
-    
-        //se realiza la lectura de la imagen
-                $imagenSubida=fopen($_FILES['foto']['tmp_name'], 'r');
-                $binariosImagen=fread($imagenSubida,$tamanoArchvio);   
-        //se realiza la consulta correspondiente para guardar los datos
-        
-        $imagenFin =mysqli_escape_string($conexion,$binariosImagen);
-                
+    // Se realiza la lectura de la imagen
+    $imagenSubida = fopen($_FILES['foto']['tmp_name'], 'r');
+    $binariosImagen = fread($imagenSubida, $tamanoArchivo);   
 
+    // Se realiza la consulta correspondiente para guardar los datos
+    $imagenFinal = mysqli_escape_string($conexion, $binariosImagen);
 
-    $consulta="INSERT INTO productos (nombre, descripcion, color, precio, cantidad, cantidad_min, categorias, imagen)
-    VALUES ('$nombre', '$descripcion', '$color', $precio, $cantidad ,$cantidad_min, '$categorias', '$imagenFin');" ;
+    $consulta = "INSERT INTO materiales (nombre, descripcion, color, precio, cantidad, cantidad_min, categorias, imagen)
+    VALUES ('$nombre', '$descripcion', '$color', $precio, $cantidad, $cantidad_min, '$categorias', '$imagenFinal');" ;
 
     mysqli_query($conexion, $consulta);
-    
     header("Location: ../views/usuarios/");
-
 }
-function editar_producto(){
+
+function editar_material(){
 
     global $conexion;
     extract($_POST);
 
+    // Variables donde se almacenan los valores de nuestra imagen
+    $tamanoArchivo = $_FILES['foto']['size'];
 
-        //variables donde se almacenan los valores de nuestra imagen
-                $tamanoArchvio=$_FILES['foto']['size'];
-        //se realiza la lectura de la imagen
-                $imagenSubida=fopen($_FILES['foto']['tmp_name'], 'r');
-                $binariosImagen=fread($imagenSubida,$tamanoArchvio);   
-        //se realiza la consulta correspondiente para guardar los datos
-        
-        $imagenFin =mysqli_escape_string($conexion,$binariosImagen);
-                
-    $consulta="UPDATE productos SET nombre = '$nombre', descripcion = '$descripcion', color = '$color', precio = '$precio', cantidad = '$cantidad', categorias = '$categorias', imagen = '$imagenFin' WHERE id = $id";
+    // Se realiza la lectura de la imagen
+    $imagenSubida = fopen($_FILES['foto']['tmp_name'], 'r');
+    $binariosImagen = fread($imagenSubida, $tamanoArchivo);   
+
+    // Se realiza la consulta correspondiente para guardar los datos
+    $imagenFinal = mysqli_escape_string($conexion, $binariosImagen);
+
+    $consulta = "UPDATE materiales SET nombre = '$nombre', descripcion = '$descripcion', color = '$color', precio = '$precio', cantidad = '$cantidad', categorias = '$categorias', imagen = '$imagenFinal' WHERE id = $id";
 
     mysqli_query($conexion, $consulta);
     header("Location: ../views/usuarios/");
 }
-function eliminar_producto(){
+
+function eliminar_material(){
 
     global $conexion;
     extract($_POST);
     $id = $_POST['id'];
-    $consulta = "DELETE FROM productos WHERE id = $id";
+    $consulta = "DELETE FROM materiales WHERE id = $id";
     mysqli_query($conexion, $consulta);
     header("Location: ../views/usuarios/");
 }

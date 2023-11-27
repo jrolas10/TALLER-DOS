@@ -79,6 +79,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
+                            <label for="foto" class="form-label">Foto *</label>
                             <input type="file" class="form-control-file" name="foto" id="foto" required>
                         </div>
                     </div>
@@ -93,5 +94,5 @@
     </div>
 </div>
 </body>
-<?php require '../../../includes/_footer.php' ?>
+<?php require '../../includes/_footer.php' ?>
 </html>
